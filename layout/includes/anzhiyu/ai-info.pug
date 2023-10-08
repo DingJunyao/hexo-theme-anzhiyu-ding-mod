@@ -6,17 +6,17 @@ if (pageFillDescription && page.ai)
   .post-ai-description
     .ai-title
       i.anzhiyufont.anzhiyu-icon-bilibili
-      .ai-title-text AI-摘要
+      .ai-title-text 摘要
       if (switchBtn)
         #ai-Toggle 切换
-      i.anzhiyufont.anzhiyu-icon-arrow-rotate-right
+      //- i.anzhiyufont.anzhiyu-icon-arrow-rotate-right
       i.anzhiyufont.anzhiyu-icon-circle-dot(title="朗读摘要")
-      #ai-tag
-        if mode == "tianli"
-          = "Tianli GPT"
-        else
-          = gptName + " GPT"
-    .ai-explanation AI初始化中...
+      //- #ai-tag
+      //-   if mode == "tianli"
+      //-     = "Tianli GPT"
+      //-   else
+      //-     = gptName
+    .ai-explanation 初始化中...
     .ai-btn-box
       .ai-btn-item 介绍自己 🙈
       .ai-btn-item 生成本文简介 👋

@@ -47,12 +47,13 @@
     else
       .copyright!= `&copy;${nowYear} By ${config.author}`
 
-  - let work_img = theme.footer.runtime.work_img
-  - let work_description = theme.footer.runtime.work_description
+  //- - let work_img = theme.footer.runtime.work_img
+  //- - let work_description = theme.footer.runtime.work_description
   if theme.footer.runtime.enable
-    #workboard
-      img(src=`${work_img}`, alt=`${work_description}`, title=`${work_description}`, class="workSituationImg boardsign")
-      #runtimeTextTip
+      #workboard
+        //- if work_img
+        //-   img(src=`${work_img}`, alt=`${work_description}`, title=`${work_description}`, class="workSituationImg boardsign")
+        #runtimeTextTip
   if theme.footer.custom_text
     .footer_custom_text!=`${theme.footer.custom_text}`
   if theme.footer.bdageitem.enable

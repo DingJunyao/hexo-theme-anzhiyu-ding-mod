@@ -45,11 +45,11 @@
     });
   });
 
-  document.getElementById("ai-tag").addEventListener("click", onAiTagClick);
-  aiTitleRefreshIcon.addEventListener("click", onAiTitleRefreshIconClick);
-  document.getElementById("go-tianli-blog").addEventListener("click", () => {
-    window.open(btnLink, "_blank");
-  });
+  // document.getElementById("ai-tag").addEventListener("click", onAiTagClick);
+  // aiTitleRefreshIcon.addEventListener("click", onAiTitleRefreshIconClick);
+  // document.getElementById("go-tianli-blog").addEventListener("click", () => {
+  //   window.open(btnLink, "_blank");
+  // });
   aiReadAloudIcon.addEventListener("click", readAloud);
 
   async function readAloud() {
@@ -362,7 +362,7 @@
     if (mode == "tianli") {
       startAI("我是文章辅助AI: TianliGPT，点击下方的按钮，让我生成本文简介、推荐相关文章等。");
     } else {
-      startAI(`我是文章辅助AI: ${gptName} GPT，点击下方的按钮，让我生成本文简介、推荐相关文章等。`);
+      startAI(`这里显示的是文章的摘要，一般为 AI 生成。你也可以查看推荐的相关文章。`);
     }
   }
 
@@ -370,44 +370,44 @@
     aiTitleRefreshIcon.click();
   }
 
-  function onAiTagClick() {
-    if (mode === "tianli") {
-      post_ai.querySelectorAll(".ai-btn-item").forEach(item => (item.style.display = "none"));
-      document.getElementById("go-tianli-blog").style.display = "block";
-      startAI(
-        "你好，我是Tianli开发的摘要生成助理TianliGPT，是一个基于GPT-4的生成式AI。我在这里只负责摘要的预生成和显示，你无法与我直接沟通，如果你也需要一个这样的AI摘要接口，可以在下方购买。"
-      );
-    } else {
-      post_ai.querySelectorAll(".ai-btn-item").forEach(item => (item.style.display = "block"));
-      document.getElementById("go-tianli-blog").style.display = "none";
-      startAI(
-        `你好，我是本站摘要生成助理${gptName} GPT，是一个基于GPT-4的生成式AI。我在这里只负责摘要的预生成和显示，你无法与我直接沟通。`
-      );
-    }
-  }
+  // function onAiTagClick() {
+  //   if (mode === "tianli") {
+  //     post_ai.querySelectorAll(".ai-btn-item").forEach(item => (item.style.display = "none"));
+  //     document.getElementById("go-tianli-blog").style.display = "block";
+  //     startAI(
+  //       "你好，我是Tianli开发的摘要生成助理TianliGPT，是一个基于GPT-4的生成式AI。我在这里只负责摘要的预生成和显示，你无法与我直接沟通，如果你也需要一个这样的AI摘要接口，可以在下方购买。"
+  //     );
+  //   } else {
+  //     post_ai.querySelectorAll(".ai-btn-item").forEach(item => (item.style.display = "block"));
+  //     document.getElementById("go-tianli-blog").style.display = "none";
+  //     startAI(
+  //       `这里显示的是文章的摘要，一般为 AI 生成。你也可以查看推荐的相关文章。`
+  //     );
+  //   }
+  // }
 
-  function onAiTitleRefreshIconClick() {
-    const truncateDescription = (title + pageFillDescription).trim().substring(0, basicWordCount);
+  // function onAiTitleRefreshIconClick() {
+  //   const truncateDescription = (title + pageFillDescription).trim().substring(0, basicWordCount);
 
-    aiTitleRefreshIcon.style.opacity = "0.2";
-    aiTitleRefreshIcon.style.transitionDuration = "0.3s";
-    aiTitleRefreshIcon.style.transform = "rotate(" + 360 * refreshNum + "deg)";
-    if (truncateDescription.length <= basicWordCount) {
-      let param = truncateDescription.length - Math.floor(Math.random() * randomNum);
-      while (param === prevParam || truncateDescription.length - param === prevParam) {
-        param = truncateDescription.length - Math.floor(Math.random() * randomNum);
-      }
-      prevParam = param;
-      aiAbstract(param);
-    } else {
-      let value = Math.floor(Math.random() * randomNum) + basicWordCount;
-      while (value === prevParam || truncateDescription.length - value === prevParam) {
-        value = Math.floor(Math.random() * randomNum) + basicWordCount;
-      }
-      aiAbstract(value);
-    }
-    refreshNum++;
-  }
+  //   aiTitleRefreshIcon.style.opacity = "0.2";
+  //   aiTitleRefreshIcon.style.transitionDuration = "0.3s";
+  //   aiTitleRefreshIcon.style.transform = "rotate(" + 360 * refreshNum + "deg)";
+  //   if (truncateDescription.length <= basicWordCount) {
+  //     let param = truncateDescription.length - Math.floor(Math.random() * randomNum);
+  //     while (param === prevParam || truncateDescription.length - param === prevParam) {
+  //       param = truncateDescription.length - Math.floor(Math.random() * randomNum);
+  //     }
+  //     prevParam = param;
+  //     aiAbstract(param);
+  //   } else {
+  //     let value = Math.floor(Math.random() * randomNum) + basicWordCount;
+  //     while (value === prevParam || truncateDescription.length - value === prevParam) {
+  //       value = Math.floor(Math.random() * randomNum) + basicWordCount;
+  //     }
+  //     aiAbstract(value);
+  //   }
+  //   refreshNum++;
+  // }
 
   function changeShowMode() {
     mode = mode === "tianli" ? "local" : "tianli";
@@ -423,7 +423,7 @@
         document.querySelectorAll(".ai-btn-item").forEach(item => (item.style.display = "block"));
         document.getElementById("go-tianli-blog").style.display = "none";
       }
-      document.getElementById("ai-tag").innerHTML = gptName + " GPT";
+      document.getElementById("ai-tag").innerHTML = gptName;
     }
     aiAbstract();
   }
@@ -432,7 +432,7 @@
     if (mode === "tianli") {
       document.getElementById("ai-tag").innerHTML = "TianliGPT";
     } else {
-      document.getElementById("ai-tag").innerHTML = gptName + " GPT";
+      document.getElementById("ai-tag").innerHTML = gptName;
     }
   }
 })();

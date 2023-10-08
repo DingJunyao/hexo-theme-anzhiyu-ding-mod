@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="1920" height="1200" viewBox="0 0 1920 1200">
+  <image xlink:href="1.svg" src="1.png" width="1920" height="1200" />
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #000;
+      }
+
+      .cls-2 {
+        fill: #e51400;
+      }
+
+      .cls-3 {
+        fill: #de9317;
+      }
+
+      .cls-4 {
+        fill: #034888;
+      }
+
+      .cls-5 {
+        fill: #1ba1e2;
+      }
+
+      .cls-6 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect width="1920" height="1200" class="cls-1"/>
+  <rect x="1867" width="53" height="267" class="cls-2"/>
+  <rect x="1179" y="997" width="648" height="203" class="cls-3"/>
+  <rect x="1179" width="648" height="267" class="cls-4"/>
+  <rect x="1179" y="307" width="648" height="191" class="cls-5"/>
+  <rect x="1179" y="538" width="304" height="419" class="cls-5"/>
+  <rect x="1523" y="538" width="304" height="379" class="cls-5"/>
+  <rect width="42" height="267" class="cls-3"/>
+  <rect x="82" width="504" height="48" class="cls-6"/>
+  <rect y="307" width="42" height="650" class="cls-6"/>
+  <rect y="997" width="42" height="203" class="cls-6"/>
+  <rect x="626" y="87" width="513" height="180" class="cls-6"/>
+  <rect x="626" y="307" width="513" height="191" class="cls-6"/>
+  <rect x="1867" y="307" width="53" height="610" class="cls-6"/>
+  <rect x="1867" y="997" width="53" height="203" class="cls-2"/>
+  <rect x="82" y="538" width="1057" height="662" class="cls-2"/>
+</svg>

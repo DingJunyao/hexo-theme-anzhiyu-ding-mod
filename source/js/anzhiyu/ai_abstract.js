@@ -22,7 +22,7 @@
   let summaryID = null;
 
   const post_ai = document.querySelector(".post-ai-description");
-  const aiTitleRefreshIcon = post_ai.querySelector(".ai-title .anzhiyufont.anzhiyu-icon-arrow-rotate-right");
+  // const aiTitleRefreshIcon = post_ai.querySelector(".ai-title .anzhiyufont.anzhiyu-icon-arrow-rotate-right");
   let aiReadAloudIcon = post_ai.querySelector(".anzhiyu-icon-circle-dot");
   const explanation = post_ai.querySelector(".ai-explanation");
 
@@ -119,7 +119,7 @@
   }
 
   aiAbstract();
-  showAiBtn();
+  // showAiBtn();
 
   function createIntersectionObserver() {
     return new IntersectionObserver(
@@ -266,9 +266,9 @@
       summary = result.summary.trim();
       summaryID = result.id;
 
-      setTimeout(() => {
-        aiTitleRefreshIcon.style.opacity = "1";
-      }, 300);
+      // setTimeout(() => {
+      //   aiTitleRefreshIcon.style.opacity = "1";
+      // }, 300);
       if (summary) {
         startAI(summary);
       } else {
@@ -293,9 +293,9 @@
     } else {
       startAI(strArr[0]);
     }
-    setTimeout(() => {
-      aiTitleRefreshIcon.style.opacity = "1";
-    }, 600);
+    // setTimeout(() => {
+    //   aiTitleRefreshIcon.style.opacity = "1";
+    // }, 600);
   }
 
   function aiRecommend() {
@@ -367,7 +367,8 @@
   }
 
   function aiTitleRefreshIconClick() {
-    aiTitleRefreshIcon.click();
+    // aiTitleRefreshIcon.click();
+    aiAbstractLocal();
   }
 
   // function onAiTagClick() {
@@ -428,11 +429,11 @@
     aiAbstract();
   }
 
-  function showAiBtn() {
-    if (mode === "tianli") {
-      document.getElementById("ai-tag").innerHTML = "TianliGPT";
-    } else {
-      document.getElementById("ai-tag").innerHTML = gptName;
-    }
-  }
+  // function showAiBtn() {
+  //   if (mode === "tianli") {
+  //     document.getElementById("ai-tag").innerHTML = "TianliGPT";
+  //   } else {
+  //     document.getElementById("ai-tag").innerHTML = gptName;
+  //   }
+  // }
 })();

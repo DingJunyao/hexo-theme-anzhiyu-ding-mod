@@ -2,7 +2,7 @@
 - let gptName = theme.post_head_ai_description.gptName
 - let mode = theme.post_head_ai_description.mode
 - let switchBtn = theme.post_head_ai_description.switchBtn
-if (pageFillDescription && page.ai)
+if (pageFillDescription && (page.ai || page.description))
   .post-ai-description
     .ai-title
       i.anzhiyufont.anzhiyu-icon-bilibili

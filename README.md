@@ -1,3 +1,14 @@
+## 复刻者注
+
+本人对于 原 Hexo 主题很喜欢，奈何不喜欢其中的一些配置，故复刻修改。
+
+大概的修改范围：
+
+- “关于”页面大幅删减内容
+- AI 摘要修改前端样式，可放到 description 属性中，方便 SEO
+
+---
+
 <p align="center">
   <a title="Hexo Version" target="_blank" href="https://hexo.io/zh-cn/"><img alt="Hexo Version" src="https://img.shields.io/badge/Hexo-%3E%3D%205.3.0-orange?style=flat"></a>
   <a title="Node Version" target="_blank" href="https://nodejs.org/zh-cn/"><img alt="Node Version" src="https://img.shields.io/badge/Node-%3E%3D%2010.13.0-yellowgreen?style=flat"></a>

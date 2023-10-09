@@ -162,14 +162,16 @@
       +maxWidth768()
         margin: 0 0 0 auto;
         transform: rotate(0deg) translateY(0) scale(1);
-        filter: blur(0px);
+        // filter: blur(0px);
         width: 100%;
-        if hexo-config('mainTone.enable')
-          position: fixed;
-          height: 30rem;
-        else
-          position: absolute;
-          height: 100vh;
+        position: fixed;
+        height: 30rem;
+        // if hexo-config('mainTone.enable')
+          // position: fixed;
+          // height: 30rem;
+        // else
+        //   position: absolute;
+        //   height: 100vh;
         z-index: 1;
       &::after
         position: absolute;

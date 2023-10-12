@@ -1117,7 +1117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const addPostOutdateNotice = function () {
     const data = GLOBAL_CONFIG.noticeOutdate;
-    const diffDay = anzhiyu.diffDate(GLOBAL_CONFIG_SITE.postUpdate);
+    const diffDay = anzhiyu.diffDate(GLOBAL_CONFIG_SITE.postCreate);
     if (diffDay >= data.limitDay) {
       const ele = document.createElement("div");
       ele.className = "post-outdate-notice";

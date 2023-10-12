@@ -29,6 +29,7 @@ script#config-diff.
     isHome: !{is_home()},
     isHighlightShrink: !{isHighlightShrink},
     isToc: !{showToc},
+    postCreate: '!{full_date(page.date)}',
     postUpdate: '!{full_date(page.updated)}',
     postMainColor: '!{page.main_color}',
   }

@@ -127,3 +127,7 @@ div
 
   if is_current("/") && theme.greetingBox.enable
     #greetingBox
+
+  if theme.weixin && theme.weixin.enable
+    script(data-pjax src='//res.wx.qq.com/open/js/jweixin-1.6.0.js')
+    script(async data-pjax src='/js/weixin_share.js')

@@ -1294,3 +1294,12 @@ CDN:
     # waterfall:
     # ali_iconfont_css:
     # accesskey_js:
+
+weixin: # 如果你的网站已备案，且通过了微信公众号认证，可以设置该部分，在微信里打开页面，分享给联系人和朋友圈时，带上图片和简介（仅联系人），且可以自定义标题
+  enable: false
+  debug: true # 调试模式下，打开微信开发者工具和微信，打开网页，会看到调试弹窗信息
+  appId: wxxxxxxxxxxxxx # 填写开发者 ID 
+  jsApiList:  # 如果需要带简介、图片分享到朋友圈和联系人，updateAppMessageShareData 和 updateTimelineShareData 必填
+    - updateAppMessageShareData
+    - updateTimelineShareData
+  getSignApiURL: https://xxxxxx/api/getWechatJsapiSign/ # 使用的 API：https://github.com/tangramor/wx_jsapi_sign；Docker 镜像：https://hub.docker.com/r/dingjunyao/wx_jsapi_sign

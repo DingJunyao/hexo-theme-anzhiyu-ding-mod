@@ -12,6 +12,8 @@
 - 不需要上下班状态变化
 - 增大数学公式字号（Mathjax）
 - “开往”按钮去掉 JS 事件，改为链接，以防弹出窗口阻止问题
+- 增加功能：如果你的网站已备案，且通过了微信公众号认证，可以设置 `_config.yml` 里的 `weixin` 段，加上微信公众号端设置，在微信里打开页面，分享给联系人和朋友圈时，带上图片和简介（仅联系人），且可以自定义标题。我快做完才发现需要微信公众号认证，但主体为个人是无法认证的，因此无法使用；但测试可用。
+  - 该功能需配合以下 API 使用：<https://github.com/tangramor/wx_jsapi_sign>；Docker 镜像：<https://hub.docker.com/r/dingjunyao/wx_jsapi_sign>
 
 ---
 

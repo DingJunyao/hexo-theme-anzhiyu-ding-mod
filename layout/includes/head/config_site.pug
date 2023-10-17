@@ -32,4 +32,10 @@ script#config-diff.
     postCreate: '!{full_date(page.date)}',
     postUpdate: '!{full_date(page.updated)}',
     postMainColor: '!{page.main_color}',
-  }
+  };
+  var WEIXIN_SHARE_CONF = {
+    title: GLOBAL_CONFIG_SITE.title,
+    desc: GLOBAL_CONFIG_SITE.postAI,
+    url: '!{(page.copyright_url || page.permalink || url).split('#')[0].replace(/index.html$/, "") }',
+    imgUrl: '!{theme.avatar.img}'
+  };

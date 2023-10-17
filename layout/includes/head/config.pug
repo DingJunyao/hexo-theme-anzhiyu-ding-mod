@@ -158,6 +158,20 @@
   if (theme.peoplecanvas && theme.peoplecanvas.enable) {
     peoplecanvas = JSON.stringify(theme.peoplecanvas)
   }
+  let weixin_enable = 'false'
+  let weixin_debug = 'undefined'
+  let weixin_appId = 'undefined'
+  let weixin_signature = 'undefined'
+  let weixin_jsApiList = 'undefined'
+  let weixin_getSignApiURL = 'undefined'
+  if (theme.weixin && theme.weixin.enable) {
+    weixin_enable = JSON.stringify(true)
+    weixin_debug = JSON.stringify(theme.weixin.debug)
+    weixin_appId = JSON.stringify(theme.weixin.appId)
+    weixin_signature = JSON.stringify(theme.weixin.signature)
+    weixin_jsApiList = JSON.stringify(theme.weixin.jsApiList) || 'undefined'
+    weixin_getSignApiURL = JSON.stringify(theme.weixin.getSignApiURL)
+  }
 
 script.
   const GLOBAL_CONFIG = {
@@ -212,4 +226,11 @@ script.
     isAnchor: !{theme.anchor},
     shortcutKey: !{shortcutKey},
     autoDarkmode: !{theme.darkmode.enable && theme.darkmode.autoChangeMode === 1}
+  }
+  const WEIXIN_CONFIG = {
+    enable: !{weixin_enable},
+    debug: !{weixin_debug},
+    appId: !{weixin_appId},
+    jsApiList: !{weixin_jsApiList},
+    getSignApiURL: !{weixin_getSignApiURL},
   }

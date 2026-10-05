@@ -1,5 +1,9 @@
 -
-  const titleVal = pageTitle.replace(/'/ig,"\\'")
+  const escapeQuote = (str) => str ? String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"') : ''
+  const titleVal = escapeQuote(pageTitle)
+  const configTitleVal = escapeQuote(config.title)
+  const postAIVal = escapeQuote(page.ai)
+  const pageFillDescriptionVal = escapeQuote(get_page_fill_description())
 
   let isHighlightShrink
   if (theme.highlight_shrink == 'none') isHighlightShrink = 'undefined'
@@ -21,7 +25,7 @@
 
 script#config-diff.
   var GLOBAL_CONFIG_SITE = {
-    configTitle: '!{config.title}',
+    configTitle: '!{configTitleVal}',
     title: '!{titleVal}',
     postAI: '!{page.ai || page.description}',
     pageFillDescription: '!{get_page_fill_description()}',

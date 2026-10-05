@@ -1,63 +1,71 @@
-- const { server, site, option } = theme.artalk
+- const { server, site, visitor, option } = theme.artalk
 - const { use, lazyload, count } = theme.comments
 
 script.
   (() => {
-    const initArtalk = () => {
-      window.artalkItem = new Artalk(Object.assign({
+    const getArtalkDark = () => document.documentElement.getAttribute('data-theme') === 'dark'
+
+    const init = () => {
+      window.artalkItem = Artalk.init(Object.assign({
         el: '#artalk-wrap',
+        pageKey: window.location.pathname,
+        pageTitle: document.title,
         server: '!{server}',
         site: '!{site}',
-        pageKey: location.pathname,
-        darkMode: document.documentElement.getAttribute('data-theme') === 'dark',
-        countEl: '.artalk-count'
-      },!{JSON.stringify(option)}))
+        darkMode: getArtalkDark(),
+      }, !{JSON.stringify(option || {})}))
 
-      if (GLOBAL_CONFIG.lightbox === 'null') return
-      window.artalkItem.use(ctx => {
-        ctx.on('list-loaded', () => {
-          ctx.getCommentList().forEach(comment => {
-            const $content = comment.getRender().$content
-            anzhiyu.loadLightbox($content.querySelectorAll('img:not([atk-emoticon])'))
-          })
-        })
+      window.artalkItem.on('list-loaded', () => {
+        anzhiyu.loadLightbox(document.querySelectorAll('#artalk-wrap .atk-content img:not(.atk-emoticon)'))
       })
     }
 
-    const loadArtalk = async () => {
-      if (typeof window.artalkItem === 'object') {
-        initArtalk()
-        !{count ? 'GLOBAL_CONFIG_SITE.isPost && getCount()' : ''}
-      } else {
-        await getCSS('!{theme.asset.artalk_css}')
-        await getScript('!{theme.asset.artalk_js}')
-        initArtalk()
-        !{count ? 'GLOBAL_CONFIG_SITE.isPost && getCount()' : ''}
+    const loadArtalk = () => {
+      if (typeof Artalk === 'function') setTimeout(init, 0)
+      else {
+        getCSS('!{url_for(theme.asset.artalk_css)}')
+        getScript('!{url_for(theme.asset.artalk_js)}').then(init)
       }
     }
 
-    const getCount = () => {
-      Artalk.loadCountWidget({
-        server: '!{server}',
-        site: '!{site}',
-        countEl: '.artalk-count'
-      })
+    const changeArtalkTheme = (theme) => {
+      if (window.artalkItem) {
+        window.artalkItem.setDarkMode(theme === 'dark')
+      }
     }
 
-    const artalkChangeMode = theme => {
-      const artalkWrap = document.getElementById('artalk-wrap')
-      if (!(artalkWrap && artalkWrap.children.length)) return
-      const isDark = theme === 'dark'
-      window.artalkItem.setDarkMode(isDark)
-    }
-  
+    anzhiyu.addGlobalFn('themeChange', changeArtalkTheme, 'artalk')
 
-    anzhiyu.addGlobalFn('themeChange', artalkChangeMode, 'artalk')
-    
+    // 获取文章顶部评论数（使用与首页卡片相同的 API）
+    const getCommentCount = async () => {
+      const countElement = document.querySelector('.post-meta-commentcount .artalk-count')
+      if (!countElement) return
+
+      try {
+        const pageKey = countElement.getAttribute('data-page-key') || window.location.pathname
+        const searchParams = new URLSearchParams({
+          'site_name': '!{site}',
+          'page_keys': pageKey
+        })
+        const res = await fetch(`!{server}/api/v2/stats/page_comment?${searchParams}`)
+        const result = await res.json()
+        if (result && result.data) {
+          countElement.textContent = result.data[pageKey] || 0
+        }
+      } catch (err) {
+        console.error('Artalk comment count fetch error:', err)
+      }
+    }
+
     if ('!{use[0]}' === 'Artalk' || !!{lazyload}) {
       if (!{lazyload}) anzhiyu.loadComment(document.getElementById('artalk-wrap'), loadArtalk)
-      else loadArtalk()
+      else setTimeout(loadArtalk, 0)
     } else {
       window.loadOtherComment = loadArtalk
+    }
+
+    // 获取评论数
+    if (!!{count} && GLOBAL_CONFIG_SITE.isPost) {
+      getCommentCount()
     }
   })()

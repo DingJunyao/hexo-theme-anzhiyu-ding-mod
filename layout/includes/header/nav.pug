@@ -37,17 +37,17 @@ nav#nav
           )
             i.anzhiyufont.anzhiyu-icon-train
       .nav-button#randomPost_button
-        a.site-page(onclick='toRandomPost()', title='随机前往一个文章', href='javascript:void(0);')
+        a.site-page(onclick='toRandomPost()', title=_p('nav.random_post'), href='javascript:void(0);')
           i.anzhiyufont.anzhiyu-icon-dice
       if (theme.algolia_search.enable || theme.local_search.enable || theme.docsearch.enable)
         div.nav-button#search-button
-          a.site-page.social-icon.search(href='javascript:void(0);', title='搜索🔍' accesskey="s")
+          a.site-page.social-icon.search(href='javascript:void(0);', title=_p('nav.search') accesskey="s")
             i.anzhiyufont.anzhiyu-icon-magnifying-glass
             span=' '+_p('search.title')
 
       if theme.centerConsole.enable
         input#center-console(type="checkbox")
-        label.widget(for="center-console" title=_p("中控台") onclick="anzhiyu.switchConsole();")
+        label.widget(for="center-console" title=_p('console.title') onclick="anzhiyu.switchConsole();")
           i.left
           i.widget.center
           i.widget.right
@@ -60,7 +60,7 @@ nav#nav
           span#percent(onclick="anzhiyu.scrollToDest(0,500)") 0
 
       #toggle-menu
-        a.site-page(href='javascript:void(0);' title="切换")
+        a.site-page(href='javascript:void(0);' title=_p('nav.toggle_menu'))
           i.anzhiyufont.anzhiyu-icon-bars
 
 

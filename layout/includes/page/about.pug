@@ -28,9 +28,10 @@ if site.data.about
         p.p.center.small=subtitle
       .author-content
         .author-content-item.myInfoAndSayHello
-          .title1 你好，很高兴认识你👋
+          .title1=_p('about.hello')
           .title2
-            | 我叫 
+            =_p('about.im')
+            |  
             span.inline-word=aboutName
           .title1=aboutDescription
         .aboutsiteTips.author-content-item
@@ -90,16 +91,19 @@ if site.data.about
                 img.author-content-img.no-lightbox(alt=careers.tips, src=url_for(careers.img) onerror=`this.onerror=null;this.src='` + url_for(theme.error_img.flink) + `'`)
       
       .author-content
-        if theme.LA.enable
+        if theme.LA.enable || theme.umami.enable
           - let cover = item.statistic.cover
+          - let statisticSource = theme.LA.enable ? '51la' : 'Umami'
+          - let statisticLink = theme.LA.enable ? 'https://invite.51.la/1NzKqTeb?target=V6' : (theme.umami.apiHost || '#')
           .about-statistic.author-content-item(style=`background: url(${cover}) top / cover no-repeat;`)
             .card-content
-              .author-content-item-tips 数据
-              span.author-content-item-title 访问统计
+              .author-content-item-tips=_p('about.data')
+              span.author-content-item-title=_p('about.visit_stats')
               #statistic
               .post-tips
-                | 统计信息来自 
-                a(href='https://invite.51.la/1NzKqTeb?target=V6', target='_blank', rel='noopener nofollow') 51la网站统计
+                =_p('about.stats_from')
+                |  
+                a(href=statisticLink, target='_blank', rel='noopener nofollow')= statisticSource
               .banner-button-group
                 - let link = item.statistic.link
                 - let text = item.statistic.text
@@ -225,9 +229,9 @@ if site.data.about
         - let sortedByDate = rawData.slice().sort((a, b) => new Date(b.datatime) - new Date(a.datatime));
         .author-content
           .author-content-item.single.reward#about-reward
-            .author-content-item-tips 致谢
-            span.author-content-item-title 赞赏名单
-            .author-content-item-description 感谢因为有你们，让我更加有创作的动力。
+            .author-content-item-tips=_p('about.thanks')
+            span.author-content-item-title=_p('about.reward_list')
+            .author-content-item-description=_p('about.reward_thanks')
               .reward-list-all
                 - let reward_list_amount = item.reward_list.sort((a,b)=>b.amount -  a.amount)
                 each item, index in reward_list_amount
@@ -240,14 +244,14 @@ if site.data.about
                         .reward-list-item-money=`¥${item.amount + (item.suffix ? item.suffix : "")}`
                       .datatime.reward-list-item-time(datatime=item.datatime)=new Date(item.datatime).toISOString().slice(0, -14)
               .reward-list-updateDate
-                | 最新更新时间： 
+                =_p('about.last_update')
                 time.datatime.reward-list-updateDate-time(datatime=sortedByDate[0].datatime)=new Date(sortedByDate[0].datatime).toISOString().slice(0, -14)
             .about-reward
               #con
               #TA-con(onclick="anzhiyu.rewardShowConsole()")
                 #text-con
                   #linght
-                  #TA 为TA充电
+                  #TA=_p('about.charge_for_ta')
               #tube-con
                 svg(viewBox='0 0 1028 385', fill='none', xmlns='http://www.w3.org/2000/svg')
                   path(d='M1 77H234.226L307.006 24H790', stroke='#e5e9ef', stroke-width='20')
@@ -281,40 +285,47 @@ if site.data.about
                     circle(r='14', transform='matrix(1 0 0 -1 790 25)', fill='white')
                     ellipse(cx='790', cy='307.5', rx='25', ry='25.5', fill='#ffd52b')
                     circle(r='14', transform='matrix(1 0 0 -1 790 308)', fill='white')
-                p#people
-                  | 共
-                  b=item.reward_list.length
-                  | 人
+                - const totalPeopleText = _p('about.total_people', '<b>' + item.reward_list.length + '</b>')
+                p#people!= totalPeopleText
 
 
     script(src=url_for(theme.asset.countup_js))
     - const ck = theme.LA.ck
+    - const umamiEnable = theme.umami.enable
+    - const umamiApiHost = theme.umami.apiHost || ''
+    - const umamiWebsiteId = theme.umami.websiteId || ''
+    - const umamiToken = theme.umami.token || ''
+    - const laEnable = theme.LA.enable
+    -
+      const i18nStats = {
+        today_visitors: _p('about.stats.today_visitors'),
+        today_views: _p('about.stats.today_views'),
+        yesterday_visitors: _p('about.stats.yesterday_visitors'),
+        yesterday_views: _p('about.stats.yesterday_views'),
+        month_views: _p('about.stats.month_views'),
+        total_views: _p('about.stats.total_views'),
+        fetch_failed: _p('about.stats.fetch_failed')
+      }
     script(defer).
       function initAboutPage() {
-        fetch("https://v6-widget.51.la/v6/#{ck}/quote.js")
-          .then(res => res.text())
-          .then(data => {
-            let title = ["最近活跃", "今日人数", "今日访问", "昨日人数", "昨日访问", "本月访问", "总访问量"];
-            let num = data.match(/(<\/span><span>).*?(\/span><\/p>)/g);
+        const statisticEl = document.getElementById("statistic");
+        let statistic = [];
+        let numValues = [];
 
-            num = num.map(el => {
-              let val = el.replace(/(<\/span><span>)/g, "");
-              let str = val.replace(/(<\/span><\/p>)/g, "");
-              return str;
-            });
+        const i18nStats = !{JSON.stringify(i18nStats)};
 
-            let statisticEl = document.getElementById("statistic");
-
-            // 自定义不显示哪个或者显示哪个，如下为不显示 最近活跃访客 和 总访问量
-            let statistic = [];
+        // 统计数据渲染函数
+        function renderStatistic(title, num) {
+          if (!statisticEl) return;
+          numValues = num;
+          statistic = [];
+          
             for (let i = 0; i < num.length; i++) {
-              if (!statisticEl) return;
-              if (i == 0) continue;
               statisticEl.innerHTML +=
-                "<div><span>" + title[i] + "</span><span id=" + title[i] + ">" + num[i] + "</span></div>";
+              "<div><span>" + title[i] + "</span><span id='stat-" + i + "'>" + num[i] + "</span></div>";
               queueMicrotask(() => {
                 statistic.push(
-                  new CountUp(title[i], 0, num[i], 0, 2, {
+                new CountUp("stat-" + i, 0, num[i], 0, 2, {
                     useEasing: true,
                     useGrouping: true,
                     separator: ",",
@@ -324,35 +335,102 @@ if site.data.about
                   })
                 );
               });
+          }
             }
 
+        // 统计数字动画
+        function statisticUP() {
             let statisticElement = document.querySelector(".about-statistic.author-content-item");
-            function statisticUP() {
               if (!statisticElement) return;
 
               const callback = (entries, observer) => {
                 entries.forEach(entry => {
                   if (entry.isIntersecting) {
-                    for (let i = 0; i < num.length; i++) {
-                      if (i == 0) continue;
+                for (let i = 0; i < statistic.length; i++) {
                       queueMicrotask(() => {
-                        statistic[i - 1].start();
+                    statistic[i].start();
                       });
                     }
-                    observer.disconnect(); // 停止观察元素，因为不再需要触发此回调
+                observer.disconnect();
                   }
                 });
               };
 
-              const options = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0
-              };
+          const options = { root: null, rootMargin: "0px", threshold: 0 };
               const observer = new IntersectionObserver(callback, options);
               observer.observe(statisticElement);
             }
 
+        // 51la 统计
+        if (#{laEnable}) {
+          fetch("https://v6-widget.51.la/v6/#{ck}/quote.js")
+            .then(res => res.text())
+            .then(data => {
+              let title = [i18nStats.today_visitors, i18nStats.today_views, i18nStats.yesterday_visitors, i18nStats.yesterday_views, i18nStats.month_views, i18nStats.total_views];
+              let num = data.match(/(<\/span><span>).*?(\/span><\/p>)/g);
+
+              num = num.map(el => {
+                let val = el.replace(/(<\/span><span>)/g, "");
+                let str = val.replace(/(<\/span><\/p>)/g, "");
+                return str;
+              });
+
+              // 跳过第一个"最近活跃"
+              num = num.slice(1);
+              renderStatistic(title, num);
+              statisticUP();
+            })
+            .catch(err => {
+              console.error("51la stats fetch failed:", err);
+              if (statisticEl) statisticEl.innerHTML = "<div>" + i18nStats.fetch_failed + "</div>";
+            });
+        }
+
+        // Umami 统计
+        if (#{umamiEnable}) {
+          const apiHost = "#{umamiApiHost}";
+          const websiteId = "#{umamiWebsiteId}";
+          const token = "#{umamiToken}";
+          
+          const now = Date.now();
+          const todayStart = new Date().setHours(0, 0, 0, 0);
+          const yesterdayStart = todayStart - 86400000;
+          const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+
+          const fetchStats = async (startAt, endAt) => {
+            const res = await fetch(`${apiHost}/api/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            return res.json();
+          };
+
+          Promise.all([
+            fetchStats(todayStart, now),      // today
+            fetchStats(yesterdayStart, todayStart), // yesterday
+            fetchStats(monthStart, now),      // month
+            fetchStats(0, now)                // total
+          ])
+            .then(([today, yesterday, month, total]) => {
+              const title = [i18nStats.today_visitors, i18nStats.today_views, i18nStats.yesterday_visitors, i18nStats.yesterday_views, i18nStats.month_views, i18nStats.total_views];
+              const num = [
+                today.visitors?.value || today.uniques?.value || 0,
+                today.pageviews?.value || 0,
+                yesterday.visitors?.value || yesterday.uniques?.value || 0,
+                yesterday.pageviews?.value || 0,
+                month.pageviews?.value || 0,
+                total.pageviews?.value || 0
+              ];
+
+              renderStatistic(title, num);
+              statisticUP();
+            })
+            .catch(err => {
+              console.error("Umami stats fetch failed:", err);
+              if (statisticEl) statisticEl.innerHTML = "<div>" + i18nStats.fetch_failed + "</div>";
+            });
+        }
+
+        // 出生年份动画
             const selfInfoContentYear = new CountUp("selfInfo-content-year", 0, #{selfInfoContentYear}, 0, 2, {
               useEasing: true,
               useGrouping: false,
@@ -370,23 +448,17 @@ if site.data.about
                 entries.forEach(entry => {
                   if (entry.isIntersecting) {
                     selfInfoContentYear.start();
-                    observer.disconnect(); // 停止观察元素，因为不再需要触发此回调
+                observer.disconnect();
                   }
                 });
               };
 
-              const options = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0
-              };
+          const options = { root: null, rootMargin: "0px", threshold: 0 };
               const observer = new IntersectionObserver(callback, options);
               observer.observe(selfInfoContentYearElement);
             }
 
             selfInfoContentYearUp();
-            statisticUP()
-          });
 
         var pursuitInterval = null;
         pursuitInterval = setInterval(function () {
